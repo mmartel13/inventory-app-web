@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-export default function Form() {
-  const [item, setItem] = useState("");
+export default function Form({ setItem }) {
+  const [itemName, setItemName] = useState("")
   const [quantity, setQuantity] = useState(1);
 
   const addItem = (e) => {
     e.preventDefault();
-    if (!item || quantity < 1) {
+    if (!itemName || quantity < 1) {
       return;
     } else
       fetch("http://localhost:3000/add-item", {
@@ -15,10 +15,14 @@ export default function Form() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          item: item,
+          item: itemName,
           quantity: quantity,
         }),
-      }).then((res) => res.json());
+      }).then((res) => res.json())
+      .then(
+        fetch('http://localhost:3000/items')
+       .then(res => res.json())
+       .then(data => setItem(data)))
   };
 
   return (
@@ -30,9 +34,9 @@ export default function Form() {
           Item
           <input
             type="text"
-            value={item}
+            value={itemName}
             placeholder="Enter item name"
-            onChange={(e) => setItem(e.target.value)}
+            onChange={(e) => setItemName(e.target.value)}
           />
         </label>
         <label>

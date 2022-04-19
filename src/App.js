@@ -1,14 +1,15 @@
-import { List } from 'antd/lib/form/Form';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Form from './components/Form';
-// import List from './components/List';
+import List from './components/List';
 
 function App() {
+  const [item, setItem] = useState([]);
   return (
     <>
     <h1>Inventory Tracker</h1>
-    <Form/>
-    {/* <List/> */}
+    <Form setItem={setItem}/>
+    <List item={item} setItem={setItem}/>
     </>
   );
 }
